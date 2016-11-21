@@ -4,6 +4,19 @@
     <body>
         
         <div><h2>Dokumentation AMiRoFly</h2></div>
+        Zugriff auf das Repository: <br>
+        Softwarevorraussetzung: git, make
+        <ol>
+         <li>Load: public.timokorthals.de/gcc-arm-none-eabi-5_4-2016q2-20160622-linux.tar.bz2</li>
+         <li>echo "export PATH=/path/to/gcc-arm-none-eabi-5_4-2016q2/bin/:${PATH}" </li>
+         <li>~/.bashrc echo "export TARGET=CC3D_OPBL" </li>
+         <li>~/.bashrc</li>
+         <li>git clone https://github.com/tik0/betaflight.git -b v2.9.1_AMiRoFly</li>
+         <li>cd betaflight</li>
+         <li>make binary</li>
+         </ol>
+        <br>
+        Flashen und Konfigurieren des FLightcontrollers: <br>
         <ol>
             <li>Flightcontroller noch nicht anstecken</li>
             <li>Installieren von Libre Pilot GCS (link:<a href="https://librepilot.atlassian.net/wiki/display/LPDOC/Downloads" target="_blank">hier</a>)</li>
