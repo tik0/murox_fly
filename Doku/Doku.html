@@ -2,19 +2,19 @@
 <html>
 
     <body>
-        
+
         <div><h2>Dokumentation AMiRoFly</h2></div>
         Zugriff auf das Repository: <br>
         Softwarevorraussetzung: git, make
         <ol>
-         <li>Load: public.timokorthals.de/gcc-arm-none-eabi-5_4-2016q2-20160622-linux.tar.bz2</li>
-         <li>echo "export PATH=/path/to/gcc-arm-none-eabi-5_4-2016q2/bin/:${PATH}" </li>
-         <li>~/.bashrc echo "export TARGET=CC3D_OPBL" </li>
-         <li>~/.bashrc</li>
-         <li>git clone https://github.com/tik0/betaflight.git -b v2.9.1_AMiRoFly</li>
-         <li>cd betaflight</li>
-         <li>make binary</li>
-         </ol>
+            <li>Load: public.timokorthals.de/gcc-arm-none-eabi-5_4-2016q2-20160622-linux.tar.bz2</li>
+            <li>echo "export PATH=/path/to/gcc-arm-none-eabi-5_4-2016q2/bin/:${PATH}" </li>
+            <li>~/.bashrc echo "export TARGET=CC3D_OPBL" </li>
+            <li>~/.bashrc</li>
+            <li>git clone https://github.com/tik0/betaflight.git -b v2.9.1_AMiRoFly</li>
+            <li>cd betaflight</li>
+            <li>make binary</li>
+        </ol>
         <br>
         Flashen und Konfigurieren des FLightcontrollers: <br>
         <ol>
@@ -32,19 +32,97 @@
             <li>Reboot des Flightcontrolle (USB-Kabel raus und wieder rein)</li>
             <li>LibrePilot GCS schließen</li>
             <li>Betaflight öffnen</li>
-             <li>Verbinden und Einstellungen treffen -> Siehe Video 1 ab Minute 2 und Video 2</li>
+            <li>Verbinden und Einstellungen treffen -> Siehe Video 2</li>
         </ol>
-        <div>
-        <video id="video1" width="800" controls style="position: absolute; right: 5%; top: 51%">
-            <source id="mp4src1" src="betaflightEinstellungen.mp4" type="video/mp4">  
+        <div style="z-index: 10;">
+            <video id="video1" width="800" controls style="position: absolute; right: 5%; top: 61%;z-index: 10;">
+                <source id="mp4src1" src="betaflightEinstellungen.mp4" type="video/mp4">   <!--betaflightEinstellungen-->
+            </video>
+        </div>
+        <div style="z-index: 10;">
+        <video id="video2" width="800" controls style="position: absolute; right: 5%; top: 1%;z-index: 10;">
+            <source id="mp4src2" src="LibrePilot_FlashBetaFlight.mp4" type="video/mp4">  
         </video>
-            </div>
-        <video id="video2" width="800" controls style="position: absolute; right: 5%; top: 1%">
-            <source id="mp4src2" src="flashenundbetaflight.mp4" type="video/mp4">  
-        </video>
-       
+        </div>
+        <br>
+        <div style="position: relative; left: 2%">
+            <p>Einstellungen und deren Funktion (Nach jedem Reiter wo möglich speichern!)
+            </p>
+            Reiter "Configuration" (Video 2: Zeitspanne 1:50 - 2:56)
+            <ol>
+                <li>"Disarm Motors.." - WICHTIG für Sicherheit: Immer eingeschaltet lassen. <br>
+                    Sorgt im Notfall für schnelles Disarmen!</li>
+                <li>"Center of Value for RC Channels" - Mitte der Steuerbefehle sollte bei 1500 liegen. <br> 
+                    (Reichweite: 1000 - 2000, Angabe für Yaw, Pitch, Roll)</li>
+                <li>"Minimum Throttle" - Kleinster Schubwert, wo sich die Motoren noch bewegen. <br>
+                    Liegt bei diesem Setup bei ca. 1030 (Abhängig von Motoren, ESC und Kalibrierung) </li>
+                <li>"Maximum Throttle" - Maximaler Schubwert. Standard bei 2000. </li>
+                <li>"Receiver Mode" - Art der Signalübertragung vom Receiver der Fernbedienung zum Flightcontroller<br>
+                    RX_Parallel_PWM - 1 Kanal pro Kabel (Wird hier verwendet)</li>
+                <li>Speichern! </li>
+            </ol>
+            <br>
+            Reiter "Failsafe" - Sicherheitseinstellungen für Notfälle (Video 2: Zeitspanne 3:00 - 3:30)
+            <ol>
+                <li>"Stage 2 - Settings" - Hier werden die Einstellungen vorgenommen</li>
+                <li>"FAILSAFE" - Falls nicht eingeschaltet, EINSCHALTEN! <br>
+                    Aktiviert die Stage 2 Failsafe Regulierung!</li>
+                <li>Auswahl der Failsafe Art zwischen "Drop" und "Land"</li>
+                <li>"Drop" - Sobald der Flightcontroller in den Failsafe geht, <br>
+                    werden die Motoren gestoppt und der Quadrocopter fällt runter.</li>
+                <li>"Land" - Im Falle des Failsafe wird die Motordrezahl auf die untere Angabe <br>
+                    eingestellt! Idee: Soll ein langsames Sinken mit der anzugebenen Drehzahl und Dauer ermöglichen.</li>
+            </ol>
+
+            Reiter "PID Tuning" - Regelungsverhalten (Video 2: Zeitspanne 3:30 - 3:55)
+            <ol>
+                <li>"Integral" - Dieser Wert steuert die zeitliche Zunahme der Steuerungsbefehle. <br>
+                    Bei Schieflage und aktiviertem "Level (Horizontal) Mode" bedeutet das, <br>
+                    dass die Drehzahl an der tiefen Seite über die Zeit je nach Höhe des I-Anteils steigt. <br>
+                    Bei 0 bleibt der Wert konstant, über 0 steigt dieser. </li> 
+            </ol>
+
+            Reiter "Reicer" - Empfänger der Fernbedienung (Video 2: Zeitspanne 4:00 - 5:15)<br>
+            Hier werden bei aktiver Fernbedienung die Eingangswerte angegeben.
+            <ol>
+                <li>"Roll, Pitch, Yaw" - Regelung für die 3 Achsen. Mitelwert sollte bei 1500 liegen  </li> 
+                <li>"Throttle" - Schubregler, sollte Werte von unter 1000 bis ca 2000 erreichen.</li>
+                <li>"AUX1" - AUX Kanale sind Hilfskänale die beliebig belegt werden können.
+                    <br> Im Moment liegt auf "AUX1" der Failsafe. (Schalter auf der Fernbedienung suchen)</li>
+                <li>Belegung der Kanäle sollte nach jedem Umbau kurz getestet werden.</li>
+            </ol>
+
+            Reiter "Modes" - Einstellung der Modi (Video 2: Zeitspanne 5:20 - 7:05)
+            <ol>
+                <li>"ARM" - Scharfschaltung der Motoren. Liegt im Video auf "AUX1". <br>
+                    Solange der Schalter von "AUX1" auf off ist, sollte der Wert im grauen Bereich sein. <br>
+                    Wenn eingeschaltet im gelben.</li>
+                <li>"ANGLE" - Der Angle Mode hält den Quadrocopter in der Waage. <br>
+                    Der Wert von AUX1 sollte immer im gelben Bereich sein.</li>
+            </ol>
+
+            Reiter "Motoren" (Video 2: Zeitspanne 7:10 - 7:30)
+            <br>Gibt eine Übersicht, welche PWM-Signale an die ESCs der Motoren und <br>
+            Schlussendlich an die Motoren geben werden. <br>
+            (Sollte am Anfang nur ohne Propeller genutzt werden!)
+            <ol>
+                <li>"Regler - I understand the risks.." - Schaltet die Motoren frei!<br>
+                    WICHTIG: Motoren sollten ohne Propeller nicht allzu lange laufen. <br>
+                    ÜBERHITZUNGSGEFAHR - Vor allem bei Vollgas nicht mehr als ein paar Sekunden! <br>
+                    (VORSICHT - Propeller sollten nicht montiert sein!)</li>
+                <li>"Master" - Steuert alle Motoren gleichzeitig.</li>
+                <li>Andere Regler - Motoren einzeln ansteuern. </li>
+            </ol>
+            <br>
+            Reiter "CLI" (Video 2: Zeitspanne 7:30 - Ende)<br> Hier können Befehle eingegeben werden. 
+
+        </div>
+
+        <br>
+        <h2>Diese kurze Anleitung gibt nur einen kleinen Teil der möglichen Einstellung an und ist speziell für das verwendete Setup des AMiRoFlys konzipiert! <br>
+            Bei Veränderungen Werte entsprechend anpassen.</h2>
         <script>
-          
+
         </script>
     </body>
 </html>
